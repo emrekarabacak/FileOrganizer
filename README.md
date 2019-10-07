@@ -1,0 +1,1 @@
+Copies or moves the files from given folder to destination folder by grouping them by month.

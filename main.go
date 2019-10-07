@@ -16,6 +16,8 @@ var copy = flag.Bool("copy", true, "Copies files if true, otherwise files will b
 func main() {
 	flag.Parse()
 
+	fmt.Println(*copy)
+
 	if len(*path) == 0 {
 		fmt.Println("source path is mandatory")
 		return
@@ -45,7 +47,6 @@ func moveToPath(result map[string][]fileInformation, dest *string) {
 		for _, f := range val {
 			currPath := fmt.Sprintf("%s/%s", f.dir, f.name)
 			destPath := fmt.Sprintf("%s/%s", path, f.name)
-
 			err := os.Rename(currPath, destPath)
 			if err != nil {
 				fmt.Println(err)
