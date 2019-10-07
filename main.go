@@ -9,28 +9,32 @@ import (
 	"time"
 )
 
-var path = flag.String("path", "", "Folder Path")
-var dest = flag.String("dest", "", "Destination path for folders")
+var path = flag.String("src", "", "Source folder path")
+var dest = flag.String("dst", "", "Destination folder path")
+var copy = flag.Bool("copy", true, "Copies files if true, otherwise files will be moved")
 
 func main() {
 	flag.Parse()
 
 	if len(*path) == 0 {
-		fmt.Println("Path variable is mandatory")
+		fmt.Println("source path is mandatory")
 		return
 	}
 
 	if len(*dest) == 0 {
-		fmt.Println("Destination path variable is mandatory")
+		fmt.Println("Destination path is mandatory")
 		return
 	}
 
 	files := make([]fileInformation, 0, 15)
 	retrieveFileInformation(*path, &files)
 	groupedFiles := groupFilesByDate(&files)
-	copyToPath(groupedFiles, dest)
-	//moveToPath(groupedFiles, dest)
 
+	if *copy {
+		copyToPath(groupedFiles, dest)
+	} else {
+		moveToPath(groupedFiles, dest)
+	}
 }
 
 func moveToPath(result map[string][]fileInformation, dest *string) {
